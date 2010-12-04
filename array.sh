@@ -1,13 +1,8 @@
-. object.sh
+#!/bin/bash
+. class.sh
 debug "loading array.sh"
 
-Array() {
-  if [ -t 0 ]; then
-    echo
-  else  
-    cat -
-  fi | Class Array $@
-}
+alias Array='Class Array'
 
 Array::construct() {
   debug "Array::construct $@"

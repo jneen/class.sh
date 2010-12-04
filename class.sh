@@ -1,5 +1,6 @@
+#!/bin/bash
 . util.sh
-. alloc.sh
+. ptr.sh
 debug "loading object.sh"
 
 Class() {
@@ -11,6 +12,7 @@ Class() {
 
   case $mode in
     new)
+      # create an instance of $_class
       debug "$_class new"
       local var=$1; shift
 
@@ -21,9 +23,12 @@ Class() {
     ;;
 
     __inst__)
+      # This is an instance of $_class
+
       debug "$_class __inst__ $@"
       local _self=$1; shift
 
+      # load up the instance variables
       while true; do
         case $1 in
           --*)
@@ -41,14 +46,25 @@ Class() {
 
       local _method=$1; shift
 
-      cat - | $_class::$_method $@
+      # run the method, piping in stdin if it's not the terminal
+      # TODO: there's gotta be a better way than this.
+      if [ -t 0 ]; then
+        echo
+      else
+        cat -
+      fi | $_class::$_method $@
     ;;
 
     *)
-      if defined? Array.$1; then
-        cat - | Array.$mode $@
+      # running a class method
+      if defined? $_class.$mode; then
+        if [ -t 0 ]; then
+          echo
+        else
+          cat -
+        fi | $_class.$mode $@
       else
-        raise "undefined method $1 for Array."
+        raise "undefined method $mode for $_class."
       fi
     ;;
   esac

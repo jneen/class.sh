@@ -1,11 +1,14 @@
-putd() {
-  debug "$1=%(${!1})"
-}
+#!/bin/bash
 
 debug() {
   if [ -n "$DEBUG" ]; then
-    echo "debug: $@" 1>&2
+    stderr "debug: $@" 1>&2
   fi
+}
+debug "loading util.sh"
+
+putd() {
+  debug "$1=%(${!1})"
 }
 
 raise() {
@@ -15,10 +18,11 @@ raise() {
 
 stderr() {
   echo $@ 1>&2
-  cat - | 1>&2
+  if [ ! -t 0 ]; then
+    cat - | 1>&2
+  fi
 }
 
-debug "loading util.sh"
 
 match?() {
   grepped="$(cat - | grep "$@")"
@@ -31,14 +35,6 @@ numeric?() {
   else
     echo $(cat -)
   fi | match? -E '^[0-9]+$'
-}
-
-false() {
-  test 1 -eq 0
-}
-
-true() {
-  test 0 -eq 0
 }
 
 not() {

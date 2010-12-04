@@ -1,3 +1,4 @@
+#!/bin/bash
 . util.sh
 
 debug "loading alloc.sh"
