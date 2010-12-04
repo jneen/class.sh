@@ -36,7 +36,13 @@ numeric?() {
 }
 
 not() {
-  if cat - | $@; then
+  if [ -t 0 ]; then
+    echo
+  else
+    cat -
+  fi | $@
+
+  if [ "$?" -eq 0 ]; then
     false
   else
     true
