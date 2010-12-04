@@ -60,7 +60,3 @@ defined?() {
     type $(cat -)
   fi &> /dev/null
 }
-
-termfix() {
-  echo 'if [ -t 0 ]; then echo; else; cat -; fi'
-}
