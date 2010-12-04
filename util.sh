@@ -23,10 +23,8 @@ stderr() {
   fi
 }
 
-
 match?() {
-  grepped="$(cat - | grep "$@")"
-  test -n "$grepped"
+  cat - | grep "$@" | not empty?
 }
 
 numeric?() {
