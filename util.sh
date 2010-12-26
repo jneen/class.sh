@@ -31,7 +31,7 @@ numeric?() {
   if [ -n $1 ]; then
     echo $1
   else
-    echo $(cat -)
+    cat -
   fi | match? -E '^[0-9]+$'
 }
 

@@ -13,10 +13,13 @@ Class() {
   case $mode in
     new)
       # create an instance of $_class
-      debug "$_class new"
-      local var=$1; shift
+      debug "$_class new $@"
 
+      local _self=$1; shift
       local $_self="$_class __inst__ $_self"
+
+
+    debug :s $_self $($_class::construct "$@")
       :s $_self $($_class::construct "$@")
 
       :g $_self
@@ -71,11 +74,7 @@ Class() {
 }
 
 Class::repr() {
-debug "Class::repr"
-putd $_self
   :g $_self
-debug here
-debug $(:g $_self)
 }
 
 ivar_set() {

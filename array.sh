@@ -14,7 +14,7 @@ Array::push() {
 putd _length
   local next=$(expr $_length + 1)
   :s $_self $(@s $_length $1)
-  :s $_self $(@s length $(expr $_length + 1))
+  :s $_self $(@s length $next)
   :g $_self
 }
 
